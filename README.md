@@ -1,16 +1,19 @@
-# mini_project
+# Aplikasi Manajemen Bola
 
-A new Flutter project.
+# Login
+![login page](https://github.com/user-attachments/assets/980bf7b1-c025-4c47-adaf-f06bfb0ab575)
 
-## Getting Started
+# Register
+![register](https://github.com/user-attachments/assets/0ccfea3e-1e3a-4514-985d-16fcdb2b19c9)
 
-This project is a starting point for a Flutter application.
+# Home Page
+![home](https://github.com/user-attachments/assets/72d5a2fd-14cd-466b-8ed7-932b919cd8ae)
 
-A few resources to get you started if this is your first Flutter project:
+# Add Player
+![addplayer](https://github.com/user-attachments/assets/8e787462-3ead-406f-9e56-e3429857707e)
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
+# Detail Player Page
+![player detail](https://github.com/user-attachments/assets/35091d5f-4677-47ef-878d-d97bc2252b91)
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+# Demo Screen Record
+![screenrecord] (https://youtube.com/shorts/kJr9fSNhWps?si=pNutIQc3izVHUjTp)
