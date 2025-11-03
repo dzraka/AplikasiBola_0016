@@ -3,7 +3,9 @@ import 'package:mini_project/home_screen.dart';
 import 'package:mini_project/register_screen.dart';
 
 class LoginScreen extends StatefulWidget {
-  const LoginScreen({super.key});
+  final String? email;
+  final String? pwd;
+  const LoginScreen({super.key, this.email, this.pwd});
 
   @override
   State<LoginScreen> createState() => _LoginScreenState();
@@ -44,15 +46,15 @@ class _LoginScreenState extends State<LoginScreen> {
                     validator: (value) {
                       if (value!.isEmpty) {
                         return "email tidak boleh kosong";
-                      } else if (!value.contains("@")) {
-                        return "harus dengan format @";
+                      } else if (!value.contains("@gmail.com")) {
+                        return "harus dengan format @gmail.com";
                       }
                       return null;
                     },
                     keyboardType: TextInputType.emailAddress,
                     decoration: InputDecoration(
                       label: Text("Email"),
-                      hintText: "masukkan email, ex: nama@mail.com",
+                      hintText: "masukkan email, ex: nama@gmail.com",
                       filled: true,
                       fillColor: Colors.white,
                       border: OutlineInputBorder(
@@ -69,8 +71,8 @@ class _LoginScreenState extends State<LoginScreen> {
                     validator: (value) {
                       if (value!.isEmpty) {
                         return "password tidak boleh kosong";
-                      } else if (value.length < 8) {
-                        return "password harus terdiri dari minimal 8 karakter";
+                      } else if (value.length < 6) {
+                        return "password harus terdiri dari minimal 6 karakter";
                       }
                       return null;
                     },
@@ -105,12 +107,15 @@ class _LoginScreenState extends State<LoginScreen> {
                     child: ElevatedButton(
                       onPressed: () {
                         if (_formKey.currentState!.validate()) {
-                          Navigator.pushReplacement(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => HomeScreen(),
-                            ),
-                          );
+                          if (_emailCtr.text == widget.email &&
+                              _pwdCtr.text == widget.pwd) {
+                            Navigator.pushReplacement(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => HomeScreen(),
+                              ),
+                            );
+                          }
                         }
                       },
                       style: ElevatedButton.styleFrom(
