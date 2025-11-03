@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:mini_project/player_detail.dart';
 
-enum Gender { male, female }
+enum Gender { pria, wanita }
 
-enum Position { forward, midfielder, defender, goalkeeper }
+enum Position { penyerang, gelandang, bek, kiper }
 
 class AddPlayer extends StatefulWidget {
   const AddPlayer({super.key});
@@ -15,22 +15,27 @@ class AddPlayer extends StatefulWidget {
 class _AddPlayerState extends State<AddPlayer> {
   final _formKey = GlobalKey<FormState>();
   final _nameCtr = TextEditingController();
-  // final _posCtr = TextEditingController();
   final _numbCtr = TextEditingController();
   final _nationalityCtr = TextEditingController();
   final _ageCtr = TextEditingController();
   final _heightCtr = TextEditingController();
 
-  Gender? _selectedGender = Gender.male;
-  Position? _selectedPosition = Position.forward;
+  Gender? _selectedGender = Gender.pria;
+  Position? _selectedPosition = Position.penyerang;
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.white,
       appBar: AppBar(
         backgroundColor: Color(0xFF181733),
         foregroundColor: Colors.white,
-        leading: IconButton(onPressed: () {}, icon: Icon(Icons.arrow_back_ios)),
+        leading: IconButton(
+          onPressed: () {
+            Navigator.pop(context);
+          },
+          icon: Icon(Icons.arrow_back_ios),
+        ),
         title: Text(
           "Tambah Pemain Baru",
           style: TextStyle(fontWeight: FontWeight.bold),
@@ -67,22 +72,6 @@ class _AddPlayerState extends State<AddPlayer> {
 
                 SizedBox(height: 10),
 
-                // posisi
-                // TextFormField(
-                //   controller: _posCtr,
-                //   validator: (value) {
-                //     if (value!.isEmpty) {
-                //       return "masukkan posisi pemain";
-                //     }
-                //     return null;
-                //   },
-                //   keyboardType: TextInputType.text,
-                //   decoration: InputDecoration(
-                //     label: Text("Posisi Pemain"),
-                //     hintText: "masukkan posisi pemain",
-                //   ),
-                //   autovalidateMode: AutovalidateMode.onUserInteraction,
-                // ),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.start,
                   children: [
@@ -97,7 +86,7 @@ class _AddPlayerState extends State<AddPlayer> {
                           "Penyerang",
                           style: TextStyle(fontSize: 14),
                         ),
-                        value: Position.forward,
+                        value: Position.penyerang,
                         groupValue: _selectedPosition,
                         onChanged: (Position? value) {
                           setState(() {
@@ -112,7 +101,7 @@ class _AddPlayerState extends State<AddPlayer> {
                           "Gelandang",
                           style: TextStyle(fontSize: 14),
                         ),
-                        value: Position.midfielder,
+                        value: Position.gelandang,
                         groupValue: _selectedPosition,
                         onChanged: (Position? value) {
                           setState(() {
@@ -131,7 +120,7 @@ class _AddPlayerState extends State<AddPlayer> {
                           "Penjaga Gawang",
                           style: TextStyle(fontSize: 14),
                         ),
-                        value: Position.goalkeeper,
+                        value: Position.kiper,
                         groupValue: _selectedPosition,
                         onChanged: (Position? value) {
                           setState(() {
@@ -143,7 +132,7 @@ class _AddPlayerState extends State<AddPlayer> {
                     Expanded(
                       child: RadioListTile<Position>(
                         title: Text("Bek", style: TextStyle(fontSize: 14)),
-                        value: Position.defender,
+                        value: Position.bek,
                         groupValue: _selectedPosition,
                         onChanged: (Position? value) {
                           setState(() {
@@ -164,6 +153,10 @@ class _AddPlayerState extends State<AddPlayer> {
                     if (value!.isEmpty) {
                       return "masukkan nomor punggung pemain";
                     }
+                    final numValue = int.tryParse(value);
+                    if (numValue == null || numValue < 1 || numValue > 99) {
+                      return "Nomor harus antara 1-99";
+                    }
                     return null;
                   },
                   keyboardType: TextInputType.number,
@@ -183,7 +176,7 @@ class _AddPlayerState extends State<AddPlayer> {
                     if (value!.isEmpty) {
                       return "masukkan kewarganegaraan pemain";
                     }
-                    if (!RegExp(r'^[a-zA-Z\s] + $').hasMatch(value)) {
+                    if (!RegExp(r'^[a-zA-Z\s]+$').hasMatch(value)) {
                       return "kewarganegaraan hanya boleh berisi huruf";
                     }
                     return null;
@@ -205,6 +198,10 @@ class _AddPlayerState extends State<AddPlayer> {
                     if (value!.isEmpty) {
                       return "masukkan usia pemain";
                     }
+                    final numValue = int.tryParse(value);
+                    if (numValue == null || numValue < 10 || numValue > 50) {
+                      return "usia harus antara 10-50 tahun";
+                    }
                     return null;
                   },
                   keyboardType: TextInputType.number,
@@ -223,6 +220,10 @@ class _AddPlayerState extends State<AddPlayer> {
                   validator: (value) {
                     if (value!.isEmpty) {
                       return "masukkan tinggi pemain";
+                    }
+                    final numValue = double.tryParse(value);
+                    if (numValue == null || numValue < 100 || numValue > 250) {
+                      return "tinggi pemain harus antara 100-250 cm";
                     }
                     return null;
                   },
@@ -251,7 +252,7 @@ class _AddPlayerState extends State<AddPlayer> {
                           'Laki-laki',
                           style: TextStyle(fontSize: 14),
                         ),
-                        value: Gender.male,
+                        value: Gender.pria,
                         groupValue: _selectedGender,
                         onChanged: (Gender? value) {
                           setState(() {
@@ -266,7 +267,7 @@ class _AddPlayerState extends State<AddPlayer> {
                           'Perempuan',
                           style: TextStyle(fontSize: 14),
                         ),
-                        value: Gender.female,
+                        value: Gender.wanita,
                         groupValue: _selectedGender,
                         onChanged: (Gender? value) {
                           setState(() {
@@ -287,16 +288,31 @@ class _AddPlayerState extends State<AddPlayer> {
                     child: ElevatedButton(
                       onPressed: () {
                         if (_formKey.currentState!.validate()) {
-                          Navigator.pushReplacement(
+                          Navigator.push(
                             context,
                             MaterialPageRoute(
-                              builder: (context) => PlayerDetail(),
+                              builder: (context) => PlayerDetail(
+                                name: _nameCtr.text,
+                                position: _selectedPosition
+                                    .toString()
+                                    .split(".")
+                                    .last,
+                                number: _numbCtr.text,
+                                nationality: _nationalityCtr.text,
+                                age: _ageCtr.text,
+                                height: _heightCtr.text,
+                                gender: _selectedGender
+                                    .toString()
+                                    .split(".")
+                                    .last,
+                              ),
                             ),
                           );
                         }
                       },
                       style: ElevatedButton.styleFrom(
                         backgroundColor: const Color(0xFF181733),
+                        foregroundColor: Colors.white70,
                         padding: const EdgeInsets.symmetric(vertical: 8.0),
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(12),

@@ -24,7 +24,13 @@ class _RegisterScreenState extends State<RegisterScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text("Pendaftaran")),
+      backgroundColor: Colors.white,
+      appBar: AppBar(
+        backgroundColor: Color(0xFF181733),
+        foregroundColor: Colors.white,
+        title: Text("Pendaftaran"),
+        centerTitle: true,
+      ),
 
       body: SafeArea(
         child: Padding(
